@@ -1,0 +1,29 @@
+/* styles.css */
+
+.gradientBackground {
+  
+      background: linear-gradient(to bottom, #D61E1E, #ff9999); /* Adjust the gradient colors as needed */
+      height: 100vh; /* Set the height to cover the entire viewport */
+      display: fixed;
+      position: flex;
+      padding: 20px;
+      justify-content: center;
+      flex-direction: column;
+   /* Set text color to white for better visibility */
+    }
+  
+  /* Additional styles can be added here for other elements in your component */
+  .gradientbg {
+    background: white; /* Adjust the gradient colors as needed */
+    width: 100%;
+    height: 100%; /* Set the height to cover the entire viewport */
+    margin-top: 10px;
+    display:fixed;
+    position:relative;
+    padding: 10px;
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+   
+  }
+  

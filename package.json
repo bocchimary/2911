@@ -1,0 +1,54 @@
+{
+  "name": "alert-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "index.js",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "bootstrap": "^5.3.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "init": "^0.1.2",
+    "install": "^0.13.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.6.2",
+    "next": "^13.5.4",
+    "node": "^21.1.0",
+    "nodemon": "^3.0.1",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "react": "^18.2.0",
+    "react-bootstrap": "^2.9.1",
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.12.0",
+    "react-modal": "^3.16.1",
+    "serialport": "^12.0.0"
+  },
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:3001",
+      "pathRewrite": {
+        "^/api": ""
+      }
+    }
+  },
+  "devDependencies": {
+    "json-server": "^0.17.4"
+  },
+  "description": "on work",
+  "main": "next.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

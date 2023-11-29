@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Status Monitor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin: 10px;
+            border: 2px solid #000; /* Add a 2px black border to the circles */
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Water Status Monitor</h1>
+        <div class="row mt-4">
+            <div class="col-6">
+                <h2>Current Water Level</h2>
+                <div id="indicator" class="d-flex justify-content-center">
+                    <div id="green-circle" class="circle"></div>
+                    <div id="red-circle" class="circle"></div>
+                </div>
+                <p id="red-count">Red Count: 0</p> <!-- Add a paragraph to display the count -->
+                <button id="reset-button" onclick="resetCount()">Reset Count</button> <!-- Add a reset button -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const indicator = document.getElementById('indicator');
+        const greenCircle = document.getElementById('green-circle');
+        const redCircle = document.getElementById('red-circle');
+        const redCountDisplay = document.getElementById('red-count'); // Reference to the count paragraph
+        const resetButton = document.getElementById('reset-button'); // Reference to the reset button
+        let redCount = parseInt(localStorage.getItem('redCount')) || 0; // Retrieve the count from localStorage
+        let isAlertDisplayed = false; // Track if the alert is already displayed
+    
+        // Function to update the circle colors
+        function updateCircleColors(data) {
+            if (data && data.water_level) {
+                if (data.water_level === 'HIGH') {
+                    greenCircle.style.backgroundColor = 'green';
+                    redCircle.style.backgroundColor = 'transparent';
+                } else if (data.water_level === 'LOW') {
+                    redCircle.style.backgroundColor = 'red';
+                    greenCircle.style.backgroundColor = 'transparent';
+                    redCount++; // Increment the count when the circle turns red
+                    redCountDisplay.textContent = `Red Count: ${redCount}`; // Update the count display
+                    localStorage.setItem('redCount', redCount); // Store the count in localStorage
+                    if (!isAlertDisplayed) {
+                        setTimeout(() => {
+                            alert('Water level is LOW!'); // Display an alert message after a delay
+                            isAlertDisplayed = true;
+                        }, 2000); // Delay the alert for 2 seconds (adjust as needed)
+                    }
+                }
+            }
+        }
+    
+        // Initially, set both circles to transparent
+        greenCircle.style.backgroundColor = 'transparent';
+        redCircle.style.backgroundColor = 'transparent';
+    
+        // Function to handle SSE updates
+        function handleSSEData(event) {
+            const data = JSON.parse(event.data);
+            updateCircleColors(data);
+        }
+    
+        // Reset the red count
+        function resetCount() {
+            redCount = 0;
+            redCountDisplay.textContent = `Red Count: ${redCount}`;
+            localStorage.setItem('redCount', redCount); // Store the count in localStorage
+        }
+    
+        // Establish a connection to the SSE endpoint
+        const eventSource = new EventSource('/sse');
+        eventSource.onmessage = handleSSEData;
+    </script>
+    
+</body>
+</html>
